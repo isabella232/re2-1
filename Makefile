@@ -206,7 +206,7 @@ re2/unicode_%.cc: re2/make_unicode_%.py
 endif
 
 distclean: clean
-	rm -f re2/perl_groups.cc re2/unicode_casefold.cc re2/unicode_groups.cc
+#	rm -f re2/perl_groups.cc re2/unicode_casefold.cc re2/unicode_groups.cc
 
 clean:
 	rm -rf obj
