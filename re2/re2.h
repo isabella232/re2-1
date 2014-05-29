@@ -402,6 +402,13 @@ class RE2 {
                       const StringPiece &rewrite,
                       string *out);
 
+
+  // GlobalExtract is to Extract as GlobalReplace is to Replace
+  static int GlobalExtract(const StringPiece &text,
+                      const RE2& pattern,
+                      const StringPiece &rewrite,
+                      string *out);
+
   // Escapes all potentially meaningful regexp characters in
   // 'unquoted'.  The returned string, used as a regular expression,
   // will exactly match the original string.  For example,

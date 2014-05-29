@@ -224,6 +224,24 @@ TEST(RE2, Extract) {
   CHECK_EQ(s, "'foo'");
 }
 
+TEST(RE2, GlobalExtract) {
+  VLOG(1) << "TestGlobalExtract";
+
+  string s;
+
+  CHECK(RE2::GlobalExtract("ateststring", "t", "\\0", &s));
+  CHECK_EQ(s, "ttt");
+
+  CHECK(RE2::GlobalExtract("ateststring", "t.", "\\0", &s));
+  CHECK_EQ(s, "tetstr");
+
+  CHECK(RE2::GlobalExtract("ateststring", "t(.)", "\\1z", &s));
+  CHECK_EQ(s, "ezszrz");
+  // check that false match doesn't overwrite
+  CHECK(!RE2::GlobalExtract("baz", "bar", "'\\0'", &s));
+  CHECK_EQ(s, "ezszrz");
+}
+
 TEST(RE2, Consume) {
   VLOG(1) << "TestConsume";
 

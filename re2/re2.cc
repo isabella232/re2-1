@@ -427,6 +427,32 @@ bool RE2::Extract(const StringPiece &text,
   return re.Rewrite(out, rewrite, vec, nvec);
 }
 
+int RE2::GlobalExtract(const StringPiece &text,
+                 const RE2& re,
+                 const StringPiece &rewrite,
+                 string *out) {
+  StringPiece vec[kVecSize];
+  int nvec = 1 + MaxSubmatch(rewrite);
+  if (nvec > arraysize(vec))
+    return false;
+
+  int replaced = 0;
+  int consumed = 0;
+  bool cleared = false;
+  while(re.Match(text, consumed, text.size(), UNANCHORED, vec, nvec)){
+    if(!cleared) {
+      out->clear();
+      cleared = true;
+    }
+    consumed = vec[0].end() - text.begin();
+    if(re.Rewrite(out, rewrite, vec, nvec)) {
+      replaced++;
+    }
+  }
+  return replaced;
+}
+
+
 string RE2::QuoteMeta(const StringPiece& unquoted) {
   string result;
   result.reserve(unquoted.size() << 1);
